@@ -1,22 +1,26 @@
-#ListItems {
+/* Fonts and Colors */
+$themeLight: white;
+$themeDark: black;
+
+#ListItemsDark {
   .container-fluid {
     padding: 0 8px;
   }
   span.ms-webpart-titleText {
     display: block;
-    color: #333;
+    color: $themeLight;
     font-size: 24px;
     font-weight: 100;
     margin-bottom: 18px;
   }
   .dataTables_wrapper {
     .dataTables_processing {
-      color: #333333;
+      color: $themeLight;
     }
     .dataTables_length {
-      color: #333333;
+      color: $themeLight;
       label {
-        color: #4d4d4d;
+        color: $themeLight;
         margin: 0;
         overflow: inherit;
         padding: 0;
@@ -36,30 +40,32 @@
         border-radius: 0;
         border: none;
         background: none;
-        color: #333333;
         padding: 6px 12px;
         text-overflow: ellipsis;
         outline: 0;
-        background-color: #ffffff;
-        border: 1px solid #c8c8c8;
-        color: #333333;
+        border: 1px solid $themeLight;
+        color: $themeLight;
+        border-radius: 20px;
         &:hover {
-          border-color: #767676;
+          border-color: $themeLight;
         }
         &:focus {
-          border-color: #4d4d4d;
+          border-color: $themeLight;
           outline: 0;
         }
         [disabled]:hover,
         [disabled]:focus {
-          border-color: #c8c8c8;
+          border-color: $themeLight;
+        }
+        option {
+          color: $themeDark;
         }
       }
     }
     .dataTables_filter {
-      color: #333333;
+      color: $themeLight;
       label {
-        color: #4d4d4d;
+        color: $themeLight;
         margin: 0;
         overflow: inherit;
         padding: 0;
@@ -78,23 +84,23 @@
         border-radius: 0;
         border: none;
         background: none;
-        color: #333333;
+        color: $themeLight;
         padding: 6px;
         text-overflow: ellipsis;
         outline: 0;
-        background-color: #ffffff;
-        border: 1px solid #c8c8c8;
-        color: #333333;
+        border: 1px solid $themeLight;
+        color: $themeLight;
+        border-radius: 20px;
         &:hover {
-          border-color: #767676;
+          border-color: $themeLight;
         }
         &:focus {
-          border-color: #4d4d4d;
+          border-color: $themeLight;
           outline: 0;
         }
         [disabled]:hover,
         [disabled]:focus {
-          border-color: #c8c8c8;
+          border-color: $themeLight;
         }
       }
     }
@@ -104,6 +110,247 @@
       padding-top: 0;
       line-height: 40px;
       font-size: 12px;
+      color: $themeLight;
+    }
+    .dataTables_paginate {
+      float: right;
+      text-align: right;
+      padding-top: 0;
+      line-height: 40px;
+      font-size: 12px;
+      a {
+        outline: none;
+      }
+      .ellipsis {
+        color: $themeLight
+      }
+      .paginate_button {
+        box-sizing: border-box;
+        display: inline-block;
+        min-width: 24px;
+        border-radius: 0;
+        padding: 4px 8px;
+        line-height: 16px;
+        background: none;
+        margin-left: 2px;
+        text-align: center;
+        text-decoration: none!important;
+        cursor: pointer;
+        color: $themeLight !important;
+        border: 1px solid $themeLight;
+        outline: none;
+        &:hover,
+        &:focus,
+        &:active {
+          color: $themeLight !important;
+          border: 1px solid $themeLight;
+        }
+      }
+    }
+    table.dataTable.no-footer {
+      position: relative;
+      vertical-align: top;
+      top: 6px;
+      margin-bottom: 9px;
+      border-top: 1px solid $themeLight;
+      border-bottom: 1px solid $themeLight;
+    }
+    table.dataTable thead th,
+    table.dataTable thead td {
+      border-bottom: none;
+      padding: 0 8px;
+      height: 32px;
+      vertical-align: middle;
+      outline: none;
+      text-align: left;
+      color: $themeLight;
+      label {
+        font-weight: 400;
+        font-size: 12px;
+        margin: 0;
+      }
+      &.sorting,
+      &.sorting_desc,
+      &.sorting_asc {
+        cursor: pointer;
+      }
+    }
+    table.dataTable tbody {
+      .dataTables_empty {
+        text-align: center;
+        font-size: 12px;
+      }
+      tr {
+        background-color: transparent !important;
+      }
+      td {
+        padding: 11px 8px;
+        min-height: 42px;
+        background: none;
+        outline: none;
+        font-size: 12px;
+        border-top: 1px solid $themeLight;
+        a {
+          background: none;
+          font-size: 12px;
+          text-decoration: none;
+          cursor: default;
+        }
+        a[href*="."] {
+          background: none;
+          font-size: 14px;
+          &:hover,
+          &:focus,
+          &:active {
+            background: none;
+            text-decoration: underline;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+    table.dataTable.stripe tbody tr.odd,
+    table.dataTable.display tbody tr.even,
+    table.dataTable.display tbody tr.odd {
+      background-color: transparent;
+    }
+  }
+  table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child::before,
+  table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child::before {
+    top: 50%;
+    margin-top: -12px;
+    left: 50%;
+    margin-left: -12px;
+    color: $themeLight;
+    box-shadow: none;
+    box-sizing: content-box;
+    text-align: center;
+    font-size: 18px;
+    content: "+";
+    border-width: 1px;
+    border-style: solid;
+    border-color: $themeLight;
+    border-image: initial;
+    border-radius: 0;
+    padding: 6px;
+  }
+  table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td:first-child::before,
+  table.dataTable.dtr-inline.collapsed > tbody > tr.parent > th:first-child::before {
+    content: "-";
+  }
+}
+
+/**************************** Region Light **************************/
+#ListItemsLight {
+  .container-fluid {
+    padding: 0 8px;
+  }
+  span.ms-webpart-titleText {
+    display: block;
+    color: $themeDark;
+    font-size: 24px;
+    font-weight: 100;
+    margin-bottom: 18px;
+  }
+  .dataTables_wrapper {
+    .dataTables_processing {
+      color: $themeDark;
+    }
+    .dataTables_length {
+      color: $themeDark;
+      label {
+        color: $themeDark;
+        margin: 0;
+        overflow: inherit;
+        padding: 0;
+        text-overflow: inherit;
+        font-weight: 400;
+        line-height: 34px;
+        font-size: 12px;
+      }
+      select {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        margin: 0 2px 0 2px;
+        padding: 0;
+        font-size: 12px;
+        border-radius: 0;
+        border: none;
+        background: none;
+        padding: 6px 12px;
+        text-overflow: ellipsis;
+        outline: 0;
+        border: 1px solid $themeDark;
+        color: $themeDark;
+        border-radius: 20px;
+        &:hover {
+          border-color: $themeDark;
+        }
+        &:focus {
+          border-color: $themeDark;
+          outline: 0;
+        }
+        [disabled]:hover,
+        [disabled]:focus {
+          border-color: $themeDark;
+        }
+        option {
+          color: $themeDark;
+        }
+      }
+    }
+    .dataTables_filter {
+      color: $themeDark;
+      label {
+        color: $themeDark;
+        margin: 0;
+        overflow: inherit;
+        padding: 0;
+        text-overflow: inherit;
+        font-weight: 400;
+        font-size: 12px;
+      }
+      input {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        margin: 0 0 0 4px;
+        padding: 0;
+        font-size: 12px;
+        border-radius: 0;
+        border: none;
+        background: none;
+        color: $themeDark;
+        padding: 6px;
+        text-overflow: ellipsis;
+        outline: 0;
+        background-color: $themeLight;
+        border: 1px solid $themeDark;
+        color: $themeDark;
+        border-radius: 20px;
+        &:hover {
+          border-color: $themeDark;
+        }
+        &:focus {
+          border-color: $themeDark;
+          outline: 0;
+        }
+        [disabled]:hover,
+        [disabled]:focus {
+          border-color: $themeDark;
+        }
+      }
+    }
+    .dataTables_info {
+      clear: both;
+      float: left;
+      padding-top: 0;
+      line-height: 40px;
+      font-size: 12px;
+      color: $themeDark;
     }
     .dataTables_paginate {
       float: right;
@@ -126,12 +373,14 @@
         text-align: center;
         text-decoration: none!important;
         cursor: pointer;
+        color: $themeDark !important;
+        border: 1px solid $themeDark;
         outline: none;
         &:hover,
         &:focus,
         &:active {
-          color: #333333 !important;
-          border: 1px solid #767676;
+          color: $themeDark !important;
+          border: 1px solid $themeDark;
         }
       }
     }
@@ -140,8 +389,8 @@
       vertical-align: top;
       top: 6px;
       margin-bottom: 9px;
-      border-top: 1px solid #eaeaea;
-      border-bottom: 1px solid #eaeaea;
+      border-top: 1px solid $themeDark;
+      border-bottom: 1px solid $themeDark;
     }
     table.dataTable thead th,
     table.dataTable thead td {
@@ -151,6 +400,7 @@
       vertical-align: middle;
       outline: none;
       text-align: left;
+      color: $themeDark
       label {
         font-weight: 400;
         font-size: 12px;
@@ -167,21 +417,22 @@
         text-align: center;
         font-size: 12px;
       }
+      tr {
+        background-color: transparent !important;
+      }
       td {
         padding: 11px 8px;
         min-height: 42px;
         background: none;
         outline: none;
         font-size: 12px;
-        border-top: 1px solid #eaeaea;
+        border-top: 1px solid $themeDark;
         a {
-          color: #767676;
           font-size: 12px;
           text-decoration: none;
           cursor: default;
         }
         a[href*="."] {
-          color: #000;
           font-size: 14px;
           &:hover,
           &:focus,
@@ -198,8 +449,7 @@
     }
     table.dataTable.hover tbody tr:hover,
     table.dataTable.display tbody tr:hover {
-      background: #f4f4f4;
-      color: #666666;
+      color: $themeLight;
     }
   }
   table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child::before,
@@ -208,17 +458,15 @@
     margin-top: -12px;
     left: 50%;
     margin-left: -12px;
-    color: #333;
+    color: $themeDark;
     box-shadow: none;
     box-sizing: content-box;
     text-align: center;
-    font-family: "Courier New", Courier, monospace;
     font-size: 18px;
     content: "+";
-    background-color: #fff;
     border-width: 1px;
     border-style: solid;
-    border-color: #c8c8c8;
+    border-color: $themeDark;
     border-image: initial;
     border-radius: 0;
     padding: 6px;
@@ -226,15 +474,5 @@
   table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td:first-child::before,
   table.dataTable.dtr-inline.collapsed > tbody > tr.parent > th:first-child::before {
     content: "-";
-    background-color: #f4f4f4;
-  }
-  table.dataTable thead .sorting {
-    background-image: url(../images/sort_both.svg);
-  }
-  table.dataTable thead .sorting_asc {
-    background-image: url(../images/sort_asc.svg);
-  }
-  table.dataTable thead .sorting_desc {
-    background-image: url(../images/sort_desc.svg);
   }
 }

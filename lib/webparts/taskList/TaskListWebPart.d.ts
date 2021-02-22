@@ -1,8 +1,8 @@
-import { Version } from '@microsoft/sp-core-library';
 import { BaseClientSideWebPart, IPropertyPaneConfiguration } from '@microsoft/sp-webpart-base';
 export interface ITaskListWebPartProps {
     listTitle: string;
     listViewName: string;
+    viewMode: string;
     applyButton: any;
     context: any;
 }
@@ -14,6 +14,7 @@ export default class TaskListWebPart extends BaseClientSideWebPart<ITaskListWebP
     private taskLists;
     private taskListsDropdownDisabled;
     private listViews;
+    private listViewMode;
     private listViewDropdownDisabled;
     private ApplyChanges();
     private loadLists();
@@ -32,6 +33,5 @@ export default class TaskListWebPart extends BaseClientSideWebPart<ITaskListWebP
     render(): void;
     private _createComponentElement(tagName);
     private _registerComponent(tagName);
-    protected readonly dataVersion: Version;
     protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration;
 }

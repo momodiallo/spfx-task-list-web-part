@@ -165,12 +165,52 @@ function getManifests() {
     "loaderConfig": {
       "entryModuleId": "decorators",
       "internalModuleBaseUrls": [
-        "https://localhost:4321/node_modules/@microsoft/decorators/"
+        "https://localhost:4321/node_modules/@microsoft/sp-http/node_modules/@microsoft/decorators/"
       ],
       "scriptResources": {
         "decorators": {
           "type": "path",
           "path": "dist/decorators.js"
+        }
+      }
+    },
+    "isInternal": true
+  },
+  {
+    "id": "c07208f0-ea3b-4c1a-9965-ac1b825211a6",
+    "alias": "SPHttp",
+    "componentType": "Library",
+    "version": "1.4.1",
+    "manifestVersion": 2,
+    "loaderConfig": {
+      "entryModuleId": "sp-http",
+      "internalModuleBaseUrls": [
+        "https://localhost:4321/node_modules/@microsoft/sp-http/"
+      ],
+      "scriptResources": {
+        "sp-http": {
+          "type": "localizedPath",
+          "defaultPath": "dist/sp-http_en-us.js"
+        },
+        "@microsoft/sp-core-library": {
+          "type": "component",
+          "version": "1.4.1",
+          "id": "7263c7d0-1d6a-45ec-8d85-d4d1d234171b"
+        },
+        "@microsoft/decorators": {
+          "type": "component",
+          "version": "1.4.1",
+          "id": "f97266fb-ccb7-430e-9384-4124d05295d3"
+        },
+        "@ms/sp-telemetry": {
+          "type": "component",
+          "version": "0.2.2",
+          "id": "8217e442-8ed3-41fd-957d-b112e841286a"
+        },
+        "@microsoft/sp-lodash-subset": {
+          "type": "component",
+          "version": "1.4.1",
+          "id": "73e1dc6c-8441-42cc-ad47-4bd3659f8a3a"
         }
       }
     },
@@ -185,7 +225,7 @@ function getManifests() {
     "loaderConfig": {
       "entryModuleId": "office-ui-fabric-react-bundle",
       "internalModuleBaseUrls": [
-        "https://localhost:4321/node_modules/@microsoft/office-ui-fabric-react-bundle/"
+        "https://localhost:4321/node_modules/@microsoft/sp-webpart-base/node_modules/@microsoft/office-ui-fabric-react-bundle/"
       ],
       "scriptResources": {
         "office-ui-fabric-react-bundle": {
@@ -236,7 +276,7 @@ function getManifests() {
     "loaderConfig": {
       "entryModuleId": "sp-loader",
       "internalModuleBaseUrls": [
-        "https://localhost:4321/node_modules/@microsoft/sp-loader/"
+        "https://localhost:4321/node_modules/@microsoft/sp-webpart-base/node_modules/@microsoft/sp-loader/"
       ],
       "scriptResources": {
         "sp-loader": {
@@ -263,46 +303,6 @@ function getManifests() {
     "isInternal": true
   },
   {
-    "id": "c07208f0-ea3b-4c1a-9965-ac1b825211a6",
-    "alias": "SPHttp",
-    "componentType": "Library",
-    "version": "1.4.1",
-    "manifestVersion": 2,
-    "loaderConfig": {
-      "entryModuleId": "sp-http",
-      "internalModuleBaseUrls": [
-        "https://localhost:4321/node_modules/@microsoft/sp-http/"
-      ],
-      "scriptResources": {
-        "sp-http": {
-          "type": "localizedPath",
-          "defaultPath": "dist/sp-http_en-us.js"
-        },
-        "@microsoft/sp-core-library": {
-          "type": "component",
-          "version": "1.4.1",
-          "id": "7263c7d0-1d6a-45ec-8d85-d4d1d234171b"
-        },
-        "@microsoft/decorators": {
-          "type": "component",
-          "version": "1.4.1",
-          "id": "f97266fb-ccb7-430e-9384-4124d05295d3"
-        },
-        "@ms/sp-telemetry": {
-          "type": "component",
-          "version": "0.2.2",
-          "id": "8217e442-8ed3-41fd-957d-b112e841286a"
-        },
-        "@microsoft/sp-lodash-subset": {
-          "type": "component",
-          "version": "1.4.1",
-          "id": "73e1dc6c-8441-42cc-ad47-4bd3659f8a3a"
-        }
-      }
-    },
-    "isInternal": true
-  },
-  {
     "id": "1c4541f7-5c31-41aa-9fa8-fbc9dc14c0a8",
     "alias": "SPPageContext",
     "componentType": "Library",
@@ -311,7 +311,7 @@ function getManifests() {
     "loaderConfig": {
       "entryModuleId": "sp-page-context",
       "internalModuleBaseUrls": [
-        "https://localhost:4321/node_modules/@microsoft/sp-page-context/"
+        "https://localhost:4321/node_modules/@microsoft/sp-webpart-base/node_modules/@microsoft/sp-page-context/"
       ],
       "scriptResources": {
         "sp-page-context": {
@@ -346,7 +346,7 @@ function getManifests() {
     "loaderConfig": {
       "entryModuleId": "sp-component-base",
       "internalModuleBaseUrls": [
-        "https://localhost:4321/node_modules/@microsoft/sp-component-base/"
+        "https://localhost:4321/node_modules/@microsoft/sp-webpart-base/node_modules/@microsoft/sp-component-base/"
       ],
       "scriptResources": {
         "sp-component-base": {
@@ -372,6 +372,110 @@ function getManifests() {
           "type": "component",
           "version": "1.4.1",
           "id": "1c4541f7-5c31-41aa-9fa8-fbc9dc14c0a8"
+        }
+      }
+    },
+    "isInternal": true
+  },
+  {
+    "id": "0773bd53-a69e-4293-87e6-ba80ea4d614b",
+    "alias": "SPExtensionBase",
+    "componentType": "Library",
+    "version": "1.4.1",
+    "manifestVersion": 2,
+    "loaderConfig": {
+      "entryModuleId": "sp-extension-base",
+      "internalModuleBaseUrls": [
+        "https://localhost:4321/node_modules/@microsoft/sp-application-base/node_modules/@microsoft/sp-extension-base/"
+      ],
+      "scriptResources": {
+        "sp-extension-base": {
+          "type": "localizedPath",
+          "defaultPath": "dist/sp-extension-base_en-us.js"
+        },
+        "@ms/sp-telemetry": {
+          "type": "component",
+          "version": "0.2.2",
+          "id": "8217e442-8ed3-41fd-957d-b112e841286a"
+        },
+        "@microsoft/sp-component-base": {
+          "type": "component",
+          "version": "1.4.1",
+          "id": "467dc675-7cc5-4709-8aac-78e3b71bd2f6"
+        },
+        "@microsoft/decorators": {
+          "type": "component",
+          "version": "1.4.1",
+          "id": "f97266fb-ccb7-430e-9384-4124d05295d3"
+        },
+        "@microsoft/sp-http": {
+          "type": "component",
+          "version": "1.4.1",
+          "id": "c07208f0-ea3b-4c1a-9965-ac1b825211a6"
+        },
+        "@microsoft/sp-core-library": {
+          "type": "component",
+          "version": "1.4.1",
+          "id": "7263c7d0-1d6a-45ec-8d85-d4d1d234171b"
+        },
+        "@microsoft/sp-loader": {
+          "type": "component",
+          "version": "1.4.1",
+          "id": "1c6c9123-7aac-41f3-a376-3caea41ed83f"
+        }
+      }
+    },
+    "isInternal": true
+  },
+  {
+    "id": "d37b65ee-c7d8-4570-bc74-2b294ff3b380",
+    "alias": "SPListViewExtensibility",
+    "componentType": "Library",
+    "version": "1.3.0",
+    "manifestVersion": 2,
+    "loaderConfig": {
+      "entryModuleId": "sp-listview-extensibility",
+      "internalModuleBaseUrls": [
+        "https://localhost:4321/node_modules/@microsoft/sp-listview-extensibility/"
+      ],
+      "scriptResources": {
+        "sp-listview-extensibility": {
+          "type": "path",
+          "path": "dist/sp-listview-extensibility.js"
+        },
+        "@microsoft/sp-extension-base": {
+          "type": "component",
+          "version": "1.3.0",
+          "id": "0773bd53-a69e-4293-87e6-ba80ea4d614b"
+        },
+        "@microsoft/decorators": {
+          "type": "component",
+          "version": "1.3.0",
+          "id": "f97266fb-ccb7-430e-9384-4124d05295d3"
+        },
+        "@microsoft/sp-core-library": {
+          "type": "component",
+          "version": "1.3.0",
+          "id": "7263c7d0-1d6a-45ec-8d85-d4d1d234171b"
+        }
+      }
+    }
+  },
+  {
+    "id": "29bd516f-4ece-40b7-8028-597cbc65a223",
+    "alias": "SpOfficeUIFabricCore",
+    "componentType": "Library",
+    "version": "1.4.1",
+    "manifestVersion": 2,
+    "loaderConfig": {
+      "entryModuleId": "office-ui-fabric-core",
+      "internalModuleBaseUrls": [
+        "https://localhost:4321/node_modules/@microsoft/sp-office-ui-fabric-core/"
+      ],
+      "scriptResources": {
+        "office-ui-fabric-core": {
+          "type": "path",
+          "path": "dist/office-ui-fabric-core.js"
         }
       }
     },
@@ -458,110 +562,6 @@ function getManifests() {
       }
     },
     "isInternal": true
-  },
-  {
-    "id": "29bd516f-4ece-40b7-8028-597cbc65a223",
-    "alias": "SpOfficeUIFabricCore",
-    "componentType": "Library",
-    "version": "1.4.1",
-    "manifestVersion": 2,
-    "loaderConfig": {
-      "entryModuleId": "office-ui-fabric-core",
-      "internalModuleBaseUrls": [
-        "https://localhost:4321/node_modules/@microsoft/sp-office-ui-fabric-core/"
-      ],
-      "scriptResources": {
-        "office-ui-fabric-core": {
-          "type": "path",
-          "path": "dist/office-ui-fabric-core.js"
-        }
-      }
-    },
-    "isInternal": true
-  },
-  {
-    "id": "0773bd53-a69e-4293-87e6-ba80ea4d614b",
-    "alias": "SPExtensionBase",
-    "componentType": "Library",
-    "version": "1.4.1",
-    "manifestVersion": 2,
-    "loaderConfig": {
-      "entryModuleId": "sp-extension-base",
-      "internalModuleBaseUrls": [
-        "https://localhost:4321/node_modules/@microsoft/sp-extension-base/"
-      ],
-      "scriptResources": {
-        "sp-extension-base": {
-          "type": "localizedPath",
-          "defaultPath": "dist/sp-extension-base_en-us.js"
-        },
-        "@ms/sp-telemetry": {
-          "type": "component",
-          "version": "0.2.2",
-          "id": "8217e442-8ed3-41fd-957d-b112e841286a"
-        },
-        "@microsoft/sp-component-base": {
-          "type": "component",
-          "version": "1.4.1",
-          "id": "467dc675-7cc5-4709-8aac-78e3b71bd2f6"
-        },
-        "@microsoft/decorators": {
-          "type": "component",
-          "version": "1.4.1",
-          "id": "f97266fb-ccb7-430e-9384-4124d05295d3"
-        },
-        "@microsoft/sp-http": {
-          "type": "component",
-          "version": "1.4.1",
-          "id": "c07208f0-ea3b-4c1a-9965-ac1b825211a6"
-        },
-        "@microsoft/sp-core-library": {
-          "type": "component",
-          "version": "1.4.1",
-          "id": "7263c7d0-1d6a-45ec-8d85-d4d1d234171b"
-        },
-        "@microsoft/sp-loader": {
-          "type": "component",
-          "version": "1.4.1",
-          "id": "1c6c9123-7aac-41f3-a376-3caea41ed83f"
-        }
-      }
-    },
-    "isInternal": true
-  },
-  {
-    "id": "d37b65ee-c7d8-4570-bc74-2b294ff3b380",
-    "alias": "SPListViewExtensibility",
-    "componentType": "Library",
-    "version": "1.3.0",
-    "manifestVersion": 2,
-    "loaderConfig": {
-      "entryModuleId": "sp-listview-extensibility",
-      "internalModuleBaseUrls": [
-        "https://localhost:4321/node_modules/@microsoft/sp-listview-extensibility/"
-      ],
-      "scriptResources": {
-        "sp-listview-extensibility": {
-          "type": "path",
-          "path": "dist/sp-listview-extensibility.js"
-        },
-        "@microsoft/sp-extension-base": {
-          "type": "component",
-          "version": "1.3.0",
-          "id": "0773bd53-a69e-4293-87e6-ba80ea4d614b"
-        },
-        "@microsoft/decorators": {
-          "type": "component",
-          "version": "1.3.0",
-          "id": "f97266fb-ccb7-430e-9384-4124d05295d3"
-        },
-        "@microsoft/sp-core-library": {
-          "type": "component",
-          "version": "1.3.0",
-          "id": "7263c7d0-1d6a-45ec-8d85-d4d1d234171b"
-        }
-      }
-    }
   },
   {
     "id": "4df9bb86-ab0a-4aab-ab5f-48bf167048fb",
@@ -783,15 +783,16 @@ function getManifests() {
           "default": "Other"
         },
         "title": {
-          "default": "TaskList"
+          "default": "Task List"
         },
         "description": {
           "default": "custom task list web part"
         },
-        "officeFabricIconFontName": "Page",
+        "iconImageUrl": "https://otstbelgianrail.sharepoint.com/_layouts/15/images/lttask.png?rev=47",
         "properties": {
           "listName": "",
-          "viewName": ""
+          "viewName": "",
+          "viewMode": ""
         }
       }
     ],
@@ -807,12 +808,12 @@ function getManifests() {
         },
         "TaskListWebPartStrings": {
           "defaultPath": "lib/webparts/taskList/loc/en-us.js",
-          "type": "localizedPath"
-        },
-        "@microsoft/sp-core-library": {
-          "type": "component",
-          "version": "1.4.1",
-          "id": "7263c7d0-1d6a-45ec-8d85-d4d1d234171b"
+          "type": "localizedPath",
+          "paths": {
+            "en-US": "lib/webparts/taskList/loc/en-us.js",
+            "fr-FR": "lib/webparts/taskList/loc/fr-fr.js",
+            "nl-NL": "lib/webparts/taskList/loc/nl-nl.js"
+          }
         },
         "@microsoft/sp-webpart-base": {
           "type": "component",

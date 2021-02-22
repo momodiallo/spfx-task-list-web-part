@@ -6,8 +6,9 @@ import { ITaskListWebPartProps } from './TaskListWebPart';
 import pnp, { Web, List, ListEnsureResult, ItemAddResult } from 'sp-pnp-js';
 import { SPComponentLoader } from '@microsoft/sp-loader';
 import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
-
+import * as strings from 'TaskListWebPartStrings';
 require('./TaskList.scss');
+
 export interface ITaskListBindingContext extends ITaskListWebPartProps {
   shouter: KnockoutSubscribable<{}>;
 }
@@ -92,8 +93,23 @@ export default class TaskListViewModel {
     });
     web.lists.getById(listId).views.getById(viewId).fields.get().then(val => {
       val.Items.forEach(element => {
-        if(element == "MM_x0020_Due_x0020_Date"){
-          element = "Due Date";
+        switch (element) {
+          case "MM_x0020_Due_x0020_Date": element = strings.DueDate;
+          break;
+          case "DueDate": element = strings.DueDate;
+          break;
+          case "Goedkeuring_budget_aanvragen": element = strings.Goedkeuring;
+          break;
+          case "OpmerkingBudgetBeheerder":element = strings.Opmerking;
+          break;
+          case "Kostenplaats_x003_kostenplaatsv": element = strings.Kostenplaats;
+          break;
+          case "Status_x0020_WPLU": element = strings.StatusWPLU;
+          break;
+          case "Terugkoppeling_x0020_CO": element = strings.TerugkoppelingCO;
+          break;
+          case "AssignedTo": element = strings.AssignedTo;
+          break;
         }
         let vh: IListViewHeader = {
           Title: element,
@@ -141,7 +157,7 @@ export default class TaskListViewModel {
                   else {
                     if (x.Title == "LinkTitle") {
                       let actionUrl = "";
-                      if(element["ContentTypeId"].indexOf(this.meetingMinutestypeId)>-1){
+                      if(element["ContentTypeId"] ? element["ContentTypeId"].indexOf(this.meetingMinutestypeId)>-1 : false){
                         actionUrl = this.BaseUrl() + '/Lists/Tasks/EditForm.aspx?ID=' + element['Id'] + '&Source=' + this.BaseUrl() + '/SitePages/Dashboard.aspx';
                       }
                       else{
@@ -152,16 +168,16 @@ export default class TaskListViewModel {
                     else {
                       if (x.Title == "DueDate") {
                         var dt;
-                        if(element["ContentTypeId"].indexOf(this.meetingMinutestypeId)>-1) {
+                        if(element["ContentTypeId"] ? element["ContentTypeId"].indexOf(this.meetingMinutestypeId)>-1 : false) {
                           dt = new Date(element['MM_x0020_Due_x0020_Date']);
                         } else {
                           dt = new Date(element['DueDate']);
                         }
-                        itmValue.push({ key: x.Title, value: dt.toDateString(), url: null });
+                        itmValue.push({ key: "Due Date", value: dt.toDateString(), url: null });
                       }
                       else if(x.Title == "Due Date"){
                         dt = new Date(element['MM_x0020_Due_x0020_Date']);
-                        itmValue.push({ key: "Due Date", value: dt.toDateString(), url: null });
+                        itmValue.push({ key: strings.DueDate, value: dt.toDateString(), url: null });
                       }else {
                         itmValue.push({ key: x.Title, value: element[x.Title], url: null });
                       }
