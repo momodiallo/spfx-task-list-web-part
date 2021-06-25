@@ -1,5 +1,10 @@
 @import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
 
+  /* Fonts and Colors */
+  $font-family: "Segoe UI Web (West European)",Segoe UI,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif;
+  $themeLight: white;
+  $themeDark: black;
+
 .taskList {
   .container {
     max-width: 700px;
@@ -10,7 +15,7 @@
   .row {
     @include ms-Grid-row;
     @include ms-fontColor-white;
-    background-color: $ms-color-themeDark;
+    background-color: $themeLight;
     padding: 20px;
   }
 
@@ -44,9 +49,9 @@
 
     // Primary Button
     min-width: 80px;
-    background-color: $ms-color-themePrimary;
-    border-color: $ms-color-themePrimary;
-    color: $ms-color-white;
+    background-color: $themeLight;
+    border-color: $themeLight;
+    color: $themeLight;
 
     // Basic Button
     outline: transparent;
