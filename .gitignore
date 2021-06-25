@@ -1,5 +1,14 @@
 # dist folder
 dist/
 
+# lib folder
+lib/
+
 # Node modules folder
 node_modules/
+
+# sharepoint folder
+sharepoint/
+
+# temp folder
+temp/
