@@ -85,12 +85,8 @@ export default class TaskListViewModel {
    * DisplayListView
    */
   private async DisplayListView(web: Web, listId: string, viewId: string, userColl: Array<ISiteUser>) {
-    let contentTypes = await web.contentTypes.select("Name, Id/StringValue").expand("Id").get();
-    contentTypes.forEach(contentType => {
-      if(contentType["Name"] == "Meeting Minutes"){
-        this.meetingMinutestypeId = contentType.Id.StringValue;
-      }
-    });
+    let taskList = await web.lists.getById(listId).get();
+    let listName = taskList ? taskList.Title : taskList;
 
     let columnsHeaderFields= [];
     let val = await web.lists.getById(listId).views.getById(viewId).fields.get();
@@ -174,21 +170,11 @@ export default class TaskListViewModel {
             break;
           case "LinkTitle":
             let actionUrl = "";
-            if(element["ContentTypeId"] ? element["ContentTypeId"].indexOf(this.meetingMinutestypeId)>-1 : false){
-              actionUrl = this.BaseUrl() + '/Lists/Tasks/EditForm.aspx?ID=' + element['Id'] + '&Source=' + this.BaseUrl() + '/SitePages/Dashboard.aspx';
-            }
-            else{
-              actionUrl = this.BaseUrl() + '/_layouts/15/WrkTaskIP.aspx?List=' + this.selectedList() + '&ID=' + element['Id'] + '&Source=' + this.BaseUrl() + '/SitePages/Dashboard.aspx' + '&ContentTypeId=' + element['ContentTypeId'];
-            }
+            actionUrl = this.BaseUrl() + '/Lists/' + listName + '/DispForm.aspx?ID=' + element['Id'];
             itmValue.push({ key: strings.LinkTitle, value: element['Title'], url: actionUrl });
             break;
           case "LinkTitleNoMenu":
-            if(element["ContentTypeId"] ? element["ContentTypeId"].indexOf(this.meetingMinutestypeId)>-1 : false){
-              actionUrl = this.BaseUrl() + '/Lists/Tasks/EditForm.aspx?ID=' + element['Id'] + '&Source=' + this.BaseUrl() + '/SitePages/Dashboard.aspx';
-            }
-            else{
-              actionUrl = this.BaseUrl() + '/_layouts/15/WrkTaskIP.aspx?List=' + this.selectedList() + '&ID=' + element['Id'] + '&Source=' + this.BaseUrl() + '/SitePages/Dashboard.aspx' + '&ContentTypeId=' + element['ContentTypeId'];
-            }
+            actionUrl = this.BaseUrl() + '/Lists/' + listName + '/DispForm.aspx?ID=' + element['Id'];
             itmValue.push({ key: strings.LinkTitle, value: element['Title'], url: actionUrl });
             break;
           case "DueDate":

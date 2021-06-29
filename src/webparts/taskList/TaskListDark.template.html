@@ -13,7 +13,7 @@
             </div>
             <div class="ms-WPBorder ms-WPBackground-shade feature-block">
               <div class="col-content-inner">
-                <table data-bind="attr:{id:'tbl'+tblViewName()}" style="width:100%" class="display">
+                <table data-bind="attr:{id:'tbl'+tblViewName()+listViewID()}" style="width:100%" class="display">
                   <thead>
                     <tr data-bind="foreach: listViewHeaders">
                       <th><label data-bind="text: Title"></label></th>
