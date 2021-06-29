@@ -9,6 +9,8 @@ declare interface ITaskListWebPartStrings {
   StatusWPLU: string;
   TerugkoppelingCO: string;
   AssignedTo: string;
+  LinkTitle: string;
+  StartDate: string;
 }
 
 declare module 'TaskListWebPartStrings' {

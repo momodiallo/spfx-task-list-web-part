@@ -3,12 +3,15 @@ define([], function() {
     "PropertyPaneDescription": "Description",
     "BasicGroupName": "Group Name",
     "DescriptionFieldLabel": "Description Field",
-    "DueDate": "Due Date",
+    "AssignedTo": "Assigné à",
+    "DueDate": "Date d'échéance",
     "Goedkeuring": "Goedkeuring",
-    "Opmerking": "Feedback Leiding",
     "Kostenplaats": "Kostenplaats",
-    "StatusWPLU": "Status WPLU",
+    "LinkTitle": "Titre",
+    "LinkTitleNoMenu": "Titre",
+    "Opmerking": "Guide de commentaires",
+    "StatusWPLU": "Statut WPLU",
+    "StartDate": "Date de début",
     "TerugkoppelingCO": "Feedback CO",
-    "AssignedTo": "Assigned To"
   }
 });

@@ -1,13 +1,13 @@
-import * as $ from 'jquery';
-import 'datatables.net-responsive';
 import * as ko from 'knockout';
 import styles from './TaskList.module.scss';
 import { ITaskListWebPartProps } from './TaskListWebPart';
-import pnp, { Web, List, ListEnsureResult, ItemAddResult } from 'sp-pnp-js';
+import * as moment from 'moment';
+import { Web } from 'sp-pnp-js';
 import { SPComponentLoader } from '@microsoft/sp-loader';
-import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 import * as strings from 'TaskListWebPartStrings';
 require('./TaskList.scss');
+require('datatables.net-responsive');
+const $ = require('jquery');
 
 export interface ITaskListBindingContext extends ITaskListWebPartProps {
   shouter: KnockoutSubscribable<{}>;
@@ -37,6 +37,7 @@ export default class TaskListViewModel {
   private BaseUrl: KnockoutObservable<string> = ko.observable('');
   public viewName: KnockoutObservable<string> = ko.observable('');
   public tblViewName: KnockoutObservable<string> = ko.observable('');
+  public listViewID: KnockoutObservable<string> = ko.observable('');
   public listViewHeaders: KnockoutObservableArray<IListViewHeader> = ko.observableArray([]);
   private taskListItems: KnockoutObservableArray<any> = ko.observableArray([]);
   public meetingMinutestypeId: string = "";
@@ -83,122 +84,143 @@ export default class TaskListViewModel {
   /**
    * DisplayListView
    */
-  public DisplayListView(web: Web, listId: string, viewId: string, userColl: Array<ISiteUser>) {
-    web.contentTypes.select("Name, Id/StringValue").expand("Id").get().then(contentTypes => {
-      contentTypes.forEach(contentType => {
-        if(contentType["Name"] == "Meeting Minutes"){
-          this.meetingMinutestypeId = contentType.Id.StringValue;
-        }
-      });
+  private async DisplayListView(web: Web, listId: string, viewId: string, userColl: Array<ISiteUser>) {
+    let contentTypes = await web.contentTypes.select("Name, Id/StringValue").expand("Id").get();
+    contentTypes.forEach(contentType => {
+      if(contentType["Name"] == "Meeting Minutes"){
+        this.meetingMinutestypeId = contentType.Id.StringValue;
+      }
     });
-    web.lists.getById(listId).views.getById(viewId).fields.get().then(val => {
-      val.Items.forEach(element => {
+
+    let columnsHeaderFields= [];
+    let val = await web.lists.getById(listId).views.getById(viewId).fields.get();
+    let viewHeaders = val ? val.Items : val;
+    
+    if (viewHeaders) {
+      viewHeaders.forEach((element: any) => {
+        let header: string;
         switch (element) {
-          case "MM_x0020_Due_x0020_Date": element = strings.DueDate;
+          case "AssignedTo": header = strings.AssignedTo;
           break;
-          case "DueDate": element = strings.DueDate;
+          case "DueDate": header = strings.DueDate;
           break;
-          case "Goedkeuring_budget_aanvragen": element = strings.Goedkeuring;
+          case "Goedkeuring_budget_aanvragen": header = strings.Goedkeuring;
           break;
-          case "OpmerkingBudgetBeheerder":element = strings.Opmerking;
+          case "ID": header = element;
           break;
-          case "Kostenplaats_x003_kostenplaatsv": element = strings.Kostenplaats;
+          case "Kostenplaats_x003_kostenplaatsv": header = strings.Kostenplaats;
+          break;  
+          case "OpmerkingBudgetBeheerder":header = strings.Opmerking;
+          break;                  
+          case "LinkTitleNoMenu": header = strings.LinkTitle;
           break;
-          case "Status_x0020_WPLU": element = strings.StatusWPLU;
+          case "LinkTitle": header = strings.LinkTitle;
           break;
-          case "Terugkoppeling_x0020_CO": element = strings.TerugkoppelingCO;
+          case "Terugkoppeling_x0020_CO": header = strings.TerugkoppelingCO;
+          break;          
+          case "StartDate": header = strings.StartDate;
           break;
-          case "AssignedTo": element = strings.AssignedTo;
+          case "Status_x0020_WPLU": header = strings.StatusWPLU;
           break;
-        }
-        let vh: IListViewHeader = {
-          Title: element,
-        };
-        this.listViewHeaders.push(vh);
-      });
-    }).then(a1=> {
-      let webUrl = ko.unwrap(this.BaseUrl());
-      let _viewXML: string = "";
-      web.lists.getById(listId).views.getById(viewId).get().then(xx => {
-        _viewXML = xx.ListViewXml;
-        _viewXML = _viewXML.replace('<FieldRef Name="LinkTitle" />', '<FieldRef Name="LinkTitle" /><FieldRef Name="ContentTypeId" />');
-        if(webUrl.indexOf("Executive")<0 && webUrl.indexOf("Director")<0 && webUrl.indexOf("NCC")<0 && webUrl.indexOf("FAP")<0)
-        {
-          _viewXML = _viewXML.replace('<FieldRef Name="DueDate" />', '<FieldRef Name="DueDate" /><FieldRef Name="MM_x0020_Due_x0020_Date" />');
-        }
-      })
-      .then(a2 => {
-          web.lists.getById(listId).getItemsByCAMLQuery({ ViewXml: _viewXML }).then(items => {
-          items.forEach(element => {
-            let itmValue: Array<IDict> = new Array<IDict>();
-              this.listViewHeaders().forEach(x => {
-              if (x.Title == "AssignedTo") {
-                //this is to get user info based on user id
-                var result = userColl.filter(IUser => IUser.Id == element['AssignedToId']);
-                if (result && result.length !== 0) {
-                  itmValue.push({ key: x.Title, value: result[0]['UserTitle'], url: null });
-                }
-                else {
-                  itmValue.push({ key: x.Title, value: '', url: null });
-                }
-              }
-              else {
-                if (x.Title == "Predecessors") {
-                  itmValue.push({ key: x.Title, value: element['PredecessorsId'], url: null });
-                }
-                else {
-                  if (x.Title == "WorkflowLink") {
-                    if(element['WorkflowLink']) {
-                      itmValue.push({ key: x.Title, value: element['WorkflowLink']['Description'], url: element['WorkflowLink']['Url'] });
-                    }else {
-                      itmValue.push({ key: x.Title, value: "", url: "" });
-                    }
-                  }
-                  else {
-                    if (x.Title == "LinkTitle") {
-                      let actionUrl = "";
-                      if(element["ContentTypeId"] ? element["ContentTypeId"].indexOf(this.meetingMinutestypeId)>-1 : false){
-                        actionUrl = this.BaseUrl() + '/Lists/Tasks/EditForm.aspx?ID=' + element['Id'] + '&Source=' + this.BaseUrl() + '/SitePages/Dashboard.aspx';
-                      }
-                      else{
-                        actionUrl = this.BaseUrl() + '/_layouts/15/WrkTaskIP.aspx?List=' + this.selectedList() + '&ID=' + element['Id'] + '&Source=' + this.BaseUrl() + '/SitePages/Dashboard.aspx' + '&ContentTypeId=' + element['ContentTypeId'];
-                      }
-                      itmValue.push({ key: x.Title, value: element['Title'], url: actionUrl });
-                    }
-                    else {
-                      if (x.Title == "DueDate") {
-                        var dt;
-                        if(element["ContentTypeId"] ? element["ContentTypeId"].indexOf(this.meetingMinutestypeId)>-1 : false) {
-                          dt = new Date(element['MM_x0020_Due_x0020_Date']);
-                        } else {
-                          dt = new Date(element['DueDate']);
-                        }
-                        itmValue.push({ key: "Due Date", value: dt.toDateString(), url: null });
-                      }
-                      else if(x.Title == "Due Date"){
-                        dt = new Date(element['MM_x0020_Due_x0020_Date']);
-                        itmValue.push({ key: strings.DueDate, value: dt.toDateString(), url: null });
-                      }else {
-                        itmValue.push({ key: x.Title, value: element[x.Title], url: null });
-                      }
-                    }
-                  }
-                }
-              }
-            });
-            this.taskListItems.push(itmValue);
-          });
-          let tableId: string = '#tbl' + this.tblViewName();
-          $(tableId).DataTable({
-            responsive: true,
-            "lengthMenu": [[5, 10, 25], [5, 10, 25]],
-            initComplete: () => {
+          default:
+            if (element.split('_x0020_').length > 1) {
+              header = element.split('_x0020_').join(" ");
+            } else if (element.split('_').length > 1) {
+              header = element.split('_').join(" ");
+            } else {
+              header = element;
             }
-          });
-          $('#span' + this.tblViewName()).css('display', 'none');
-        });
+          break;
+        }
+        
+        let ch: IListViewHeader = {
+          Title: header,
+        };
+        this.listViewHeaders.push(ch);
+
+        columnsHeaderFields.push(element);
       });
+    }
+
+    let _viewXML: string = "";
+    let xx = await web.lists.getById(listId).views.getById(viewId).get();
+    _viewXML = xx.ListViewXml;
+    _viewXML = _viewXML.replace('<FieldRef Name="LinkTitleNoMenu" />', '<FieldRef Name="LinkTitle" />');
+
+    let items = await web.lists.getById(listId).getItemsByCAMLQuery({ ViewXml: _viewXML });
+    items.forEach((element: { [x: string]: any; }) => {
+      let itmValue: Array<IDict> = new Array<IDict>();
+      columnsHeaderFields.forEach((x,) => {
+        switch (x) {
+          case "AssignedTo":
+            //this is to get user info based on user id
+            var result = userColl.filter(IUser => IUser.Id == element['AssignedToId']);
+            if (result && result.length !== 0) {
+              itmValue.push({ key: x, value: result[0]['UserTitle'], url: null });
+            }
+            else {
+              itmValue.push({ key: strings.AssignedTo, value: '', url: null });
+            }
+            break;
+          case "Predecessors":
+            itmValue.push({ key: x, value: element['PredecessorsId'], url: null });                  
+            break;
+          case "WorkflowLink":
+            if(element['WorkflowLink']) {
+              itmValue.push({ key: x, value: element['WorkflowLink']['Description'], url: element['WorkflowLink']['Url'] });
+            }else {
+              itmValue.push({ key: x, value: "", url: "" });
+            }
+            break;
+          case "LinkTitle":
+            let actionUrl = "";
+            if(element["ContentTypeId"] ? element["ContentTypeId"].indexOf(this.meetingMinutestypeId)>-1 : false){
+              actionUrl = this.BaseUrl() + '/Lists/Tasks/EditForm.aspx?ID=' + element['Id'] + '&Source=' + this.BaseUrl() + '/SitePages/Dashboard.aspx';
+            }
+            else{
+              actionUrl = this.BaseUrl() + '/_layouts/15/WrkTaskIP.aspx?List=' + this.selectedList() + '&ID=' + element['Id'] + '&Source=' + this.BaseUrl() + '/SitePages/Dashboard.aspx' + '&ContentTypeId=' + element['ContentTypeId'];
+            }
+            itmValue.push({ key: strings.LinkTitle, value: element['Title'], url: actionUrl });
+            break;
+          case "LinkTitleNoMenu":
+            if(element["ContentTypeId"] ? element["ContentTypeId"].indexOf(this.meetingMinutestypeId)>-1 : false){
+              actionUrl = this.BaseUrl() + '/Lists/Tasks/EditForm.aspx?ID=' + element['Id'] + '&Source=' + this.BaseUrl() + '/SitePages/Dashboard.aspx';
+            }
+            else{
+              actionUrl = this.BaseUrl() + '/_layouts/15/WrkTaskIP.aspx?List=' + this.selectedList() + '&ID=' + element['Id'] + '&Source=' + this.BaseUrl() + '/SitePages/Dashboard.aspx' + '&ContentTypeId=' + element['ContentTypeId'];
+            }
+            itmValue.push({ key: strings.LinkTitle, value: element['Title'], url: actionUrl });
+            break;
+          case "DueDate":
+            if (element['DueDate']) {
+              itmValue.push({ key: strings.DueDate, value: moment(new Date(element['DueDate'])).format("DD/MM/YYYY"), url: null });
+            } else {
+              itmValue.push({ key: strings.DueDate, value: "", url: null });
+            }                                  
+            break;
+          case "StartDate":
+            if (element['StartDate']) {
+              itmValue.push({ key: strings.StartDate, value: moment(new Date(element['StartDate'])).format("DD/MM/YYYY"), url: null });
+            } else {
+              itmValue.push({ key: strings.StartDate, value: "", url: null });
+            }                                  
+            break;
+          default:
+            itmValue.push({ key: x, value: element[x], url: null });
+            break;
+        }
+      });
+      this.taskListItems.push(itmValue);
     });
+
+    let tableId: string = '#tbl' + this.tblViewName() + this.listViewID();
+    $(tableId).DataTable({
+      responsive: true,
+      "lengthMenu": [[5, 10, 25], [5, 10, 25]],
+      initComplete: () => {
+      }
+    });
+    $('#span' + this.tblViewName()).css('display', 'none');
   }
 
   /**
@@ -223,6 +245,7 @@ export default class TaskListViewModel {
       web.lists.getById(ListID).views.getById(ViewID).get().then(v => {
         this.viewName(v.Title);
         this.tblViewName(v.Title.replace(/ /g, ''));
+        this.listViewID(ViewID);
       });
       //
       this.DisplayListView(web, ListID, ViewID, _userColl);

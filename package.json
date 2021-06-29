@@ -20,19 +20,23 @@
     "@types/knockout": "3.4.39",
     "@types/webpack-env": ">=1.12.1 <1.14.0",
     "bootstrap": "^3.3.7",
-    "datatables.net-responsive": "^2.2.0",
+    "datatables.net": "^1.10.25",
+    "datatables.net-dt": "^1.1.0",
+    "datatables.net-responsive": "^2.2.9",
     "dropzone": "^5.2.0",
     "jquery": "^3.2.1",
     "knockout": "3.4.0",
+    "moment": "^2.29.1",
     "sp-pnp-js": "^3.0.2"
   },
   "devDependencies": {
     "@microsoft/sp-build-web": "~1.4.1",
     "@microsoft/sp-module-interfaces": "~1.4.1",
     "@microsoft/sp-webpart-workbench": "~1.4.1",
-    "gulp": "~3.9.1",
     "@types/chai": ">=3.4.34 <3.6.0",
+    "@types/jquery": "^3.5.5",
     "@types/mocha": ">=2.2.33 <2.6.0",
-    "ajv": "~5.2.2"
+    "ajv": "~5.2.2",
+    "gulp": "~3.9.1"
   }
 }

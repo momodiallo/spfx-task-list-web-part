@@ -1,6 +1,4 @@
-import 'datatables.net-responsive';
 import { ITaskListWebPartProps } from './TaskListWebPart';
-import { Web } from 'sp-pnp-js';
 export interface ITaskListBindingContext extends ITaskListWebPartProps {
     shouter: KnockoutSubscribable<{}>;
 }
@@ -25,6 +23,7 @@ export default class TaskListViewModel {
     private BaseUrl;
     viewName: KnockoutObservable<string>;
     tblViewName: KnockoutObservable<string>;
+    listViewID: KnockoutObservable<string>;
     listViewHeaders: KnockoutObservableArray<IListViewHeader>;
     private taskListItems;
     meetingMinutestypeId: string;
@@ -41,7 +40,7 @@ export default class TaskListViewModel {
     /**
      * DisplayListView
      */
-    DisplayListView(web: Web, listId: string, viewId: string, userColl: Array<ISiteUser>): void;
+    private DisplayListView(web, listId, viewId, userColl);
     /**
      * LoadAllSiteUsers
      */

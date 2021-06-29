@@ -447,10 +447,6 @@ $themeDark: black;
     table.dataTable.display tbody tr.odd {
       background-color: transparent;
     }
-    table.dataTable.hover tbody tr:hover,
-    table.dataTable.display tbody tr:hover {
-      color: $themeLight;
-    }
   }
   table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child::before,
   table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child::before {

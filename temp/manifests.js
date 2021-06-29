@@ -786,9 +786,9 @@ function getManifests() {
           "default": "Task List"
         },
         "description": {
-          "default": "custom task list web part"
+          "default": "Task list web part"
         },
-        "iconImageUrl": "https://otstbelgianrail.sharepoint.com/_layouts/15/images/lttask.png?rev=47",
+        "officeFabricIconFontName": "TaskSolid",
         "properties": {
           "listName": "",
           "viewName": "",
